@@ -1,57 +1,52 @@
-import {redirect } from "next/navigation";
-import { db } from "@/db";
+import { db } from '@/db';
+import { redirect } from 'next/navigation';
 
 export default function SnippetCreatePage() {
-    async function createSnippet(formData: FormData) {
-        // this is a server action!
+    async function createSnippet( formData: FormData){
         'use server';
 
-        // check the user's input and make sure they're valid
         const title = formData.get('title') as string;
         const code = formData.get('code') as string;
 
-        //create a new record in the db
         const snippet = await db.snippet.create({
             data: {
                 title,
-                code,
+                code
             },
         });
-
-        console.log('Created snippet', snippet);
-
-        //redirect them ti root route
+        console.log(snippet);
+        
         redirect('/');
     }
 
-    return (
-    <form action={createSnippet} >
+
+    return <form action={createSnippet}>
         <h3 className="font-bold m-3">Create a Snippet</h3>
         <div className="flex flex-col gap-4">
             <div className="flex gap-4">
-                <label className="w-12" htmlFor="title">
+                <label htmlFor="title" className="w-12">
                     Title
                 </label>
                 <input 
-                    name="title"
+                    name="title" 
+                    id="title"
                     className="border rounded p-2 w-full" 
-                    id="title" />
+                />
             </div>
-
             <div className="flex gap-4">
-                <label className="w-12" htmlFor="code">
+                <label htmlFor="code" className="w-12">
                     Code
                 </label>
                 <textarea 
-                    name="code"
+                    name="code" 
+                    id="code"
                     className="border rounded p-2 w-full" 
-                    id="code" />
+                />
             </div>
             <button type="submit" className="rounded p-2 bg-blue-200">
-                Submit
+                Create
             </button>
         </div>
+       
     </form>
-
-  );
 }
