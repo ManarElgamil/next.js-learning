@@ -17,14 +17,5 @@ export const {handlers: {GET, POST}, auth, signOut, signIn} = NextAuth({
             clientId: GITHUB_CLIENT_ID,
             clientSecret: GITHUB_CLIENT_SECRET
         })
-    ],
-    callbacks: {
-        //usually not needed, only fixing a bug (TODO: test later)
-        async session({session, user}: any){
-            if (session && user){
-                session.user.id = user.id;
-            }
-            return session;
-        }
-    }
+    ]
 })
